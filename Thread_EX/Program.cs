@@ -14,6 +14,7 @@
         static void Main(string[] args)
         {
             Thread thread = new Thread(new ThreadStart(func));
+            thread.IsBackground = true;
             thread.Start();
             Console.WriteLine("Main 종료");
         }
