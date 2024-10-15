@@ -2,20 +2,40 @@
 {
     class Program
     {
-        static void ThreadProc()
-        {
-            for (int i = 0; i < 10; i++) 
-            {
-                Console.Write($"{i}");
-                Thread.Sleep( 200 );
-            }
-        }
         static void Main(string[] args)
         {
-            Thread thread = new Thread(new ThreadStart(ThreadProc));
+            Thread th = new Thread(new ThreadStart(ThreadProc1));
+            th.Start();
+
+            Console.WriteLine($"Main 스레드 : {Thread.CurrentThread.GetHashCode}");
+            Console.WriteLine("Main 종료");
+        }
+        private static void ThreadProc1()
+        {
+            Console.WriteLine($"ThreadProc1 아이디 : {Thread.CurrentThread.GetHashCode()}");
+            Thread thread = new Thread(new ThreadStart(ThreadProc2));
             thread.Start();
-            thread.Join(); // 위에 부 스레드가 끝날때 까지 메인종료 메세지( 주 스레드 ) 대기시킴
-            Console.WriteLine("메인 종료");
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"{i * 10}");
+                Thread.Sleep(200);
+                if (i == 3)
+                {
+                    Console.WriteLine("ThreadProc1 종료");
+                    Thread.CurrentThread.Abort();
+                }
+            }
+        }
+        private static void ThreadProc2()
+        {
+            Console.WriteLine($"ThreadProc2 아이디 : {Thread.CurrentThread.GetHashCode()}");
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"{i}");
+                Thread.Sleep(200);
+            }
+            Console.WriteLine("ThreadProc2 종료");
         }
     }
 }
