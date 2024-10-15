@@ -1,10 +1,21 @@
 ﻿namespace Thread_EX
 {
-    internal class Program
+    class Program
     {
+        static void func()
+        {
+            int i = 0;
+            while (true)
+            {
+                Console.Write($"{i++} ");
+                Thread.Sleep(1000);
+            }
+        }
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Thread thread = new Thread(new ThreadStart(func));
+            thread.Start();
+            Console.WriteLine("Main 종료");
         }
     }
 }
