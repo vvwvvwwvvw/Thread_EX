@@ -2,21 +2,16 @@
 {
     class Program
     {
-        static void func()
+        static void ThreadProc()
         {
-            int i = 0;
-            while (true)
-            {
-                Console.Write($"{i++} ");
-                Thread.Sleep(1000);
-            }
+            Console.WriteLine($"스레드 ID{Thread.CurrentThread.GetHashCode()}");
         }
         static void Main(string[] args)
         {
-            Thread thread = new Thread(new ThreadStart(func));
-            thread.IsBackground = true;
+            Thread thread = new Thread(ThreadProc);
+
             thread.Start();
-            Console.WriteLine("Main 종료");
+            Console.WriteLine($"메인 스레드 ID{Thread.CurrentThread.GetHashCode()}");
         }
     }
 }
